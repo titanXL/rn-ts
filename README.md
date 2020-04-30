@@ -1,1 +1,1 @@
-# Expo test project rewriten with TypeScript
+# Expo test project rewriten with TypeScript!
