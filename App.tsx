@@ -2,10 +2,8 @@ import React from "react";
 import { navigationRef } from "./navigationRef";
 import { enableScreens } from "react-native-screens";
 enableScreens();
-import {
-  Provider as AuthProvider,
-  Context as AuthContext,
-} from "./src/context/AuthContext";
+import { Provider as AuthProvider } from "./src/context/AuthContext";
+import { Provider as LocationProvider } from "./src/context/LocationContext";
 
 import { NavigationContainer } from "@react-navigation/native";
 import {
@@ -67,15 +65,17 @@ const getMainScreens = () => (
 
 export default () => {
   return (
-    <AuthProvider>
-      <NavigationContainer ref={navigationRef}>
-        <StackAuth.Navigator initialRouteName="ResolveAuth" headerMode="none">
-          <StackAuth.Screen name="ResolveAuth" component={ResolveAuth} />
-          <StackAuth.Screen name="SignIn" component={SignInScreen} />
-          <StackAuth.Screen name="SignUp" component={SignUpScreen} />
-          <StackAuth.Screen name="MainScreens" component={getMainScreens} />
-        </StackAuth.Navigator>
-      </NavigationContainer>
-    </AuthProvider>
+    <LocationProvider>
+      <AuthProvider>
+        <NavigationContainer ref={navigationRef}>
+          <StackAuth.Navigator initialRouteName="ResolveAuth" headerMode="none">
+            <StackAuth.Screen name="ResolveAuth" component={ResolveAuth} />
+            <StackAuth.Screen name="SignIn" component={SignInScreen} />
+            <StackAuth.Screen name="SignUp" component={SignUpScreen} />
+            <StackAuth.Screen name="MainScreens" component={getMainScreens} />
+          </StackAuth.Navigator>
+        </NavigationContainer>
+      </AuthProvider>
+    </LocationProvider>
   );
 };

@@ -1,40 +1,51 @@
-import React from "react";
-import { Text, View, StyleSheet, Dimensions } from "react-native";
-import MapView, { Polyline, LatLng } from "react-native-maps";
+import React, { useContext } from "react";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Dimensions,
+  ActivityIndicator,
+} from "react-native";
+import MapView, { Polyline, Circle } from "react-native-maps";
+import { Context as LocationContext } from "../../context/LocationContext";
 
 interface IProps {}
 
 export const Map: React.FC<IProps> = ({}) => {
-  let points: LatLng[] = [];
-  for (let i = 0; i < 20; i++) {
-    points.push({
-      longitude: 23.3219 + i * 0.001,
-      latitude: 42.6977 + i * 0.001,
-    });
+  const {
+    location: { currentLocation },
+  } = useContext(LocationContext);
+  if (!currentLocation) {
+    return <ActivityIndicator size="large" style={{ marginTop: 200 }} />;
   }
   return (
-    <MapView
-      style={styles.mapStyle}
-      initialRegion={{
-        longitude: 23.3219,
-        latitude: 42.6977,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
-      }}
-    >
-      <Polyline coordinates={points} />
-    </MapView>
+    <View style={styles.container}>
+      <MapView
+        style={styles.mapStyle}
+        initialRegion={{
+          ...currentLocation.coords,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        }}
+      >
+        <Circle
+          center={currentLocation.coords}
+          radius={37}
+          strokeColor="rgba(158, 158, 255, 1.0)"
+          fillColor="rgba(158, 158, 255, 0.3)"
+        />
+      </MapView>
+    </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
   mapStyle: {
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    height: Dimensions.get("window").height / 2,
   },
 });
