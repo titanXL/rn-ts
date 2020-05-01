@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import {
   Accuracy,
@@ -6,13 +6,23 @@ import {
   watchPositionAsync,
   LocationData,
 } from "expo-location";
+import { Context as LocationContext } from "../context/LocationContext";
 
 export const useLocation = (
   shouldTrack: boolean,
-  cb: (location: LocationData) => void
+  cb: ({
+    location,
+    recording,
+  }: {
+    location: LocationData;
+    recording: boolean;
+  }) => void
 ) => {
   const [err, setErr] = useState(null);
   const [subscriber, setSubscriber] = useState<{ remove(): void } | null>(null);
+  const {
+    location: { recording },
+  } = useContext(LocationContext);
   const startWatching = async () => {
     try {
       await requestPermissionsAsync();
@@ -22,7 +32,7 @@ export const useLocation = (
           timeInterval: 1000,
           distanceInterval: 10,
         },
-        cb
+        (location) => cb({ location, recording })
       );
       setSubscriber(sub);
     } catch (error) {

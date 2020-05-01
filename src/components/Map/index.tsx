@@ -30,7 +30,7 @@ export const Map: React.FC<IProps> = ({}) => {
       >
         <Circle
           center={currentLocation.coords}
-          radius={37}
+          radius={300}
           strokeColor="rgba(158, 158, 255, 1.0)"
           fillColor="rgba(158, 158, 255, 0.3)"
         />
