@@ -10,8 +10,10 @@ interface IProps {}
 export const SignInScreen: React.FC<IProps> = ({}) => {
   const { auth, signIn, clearErrorMessage } = useContext(AuthContext);
   const navigation = useNavigation();
+
   useEffect(() => {
     const unsubscribe = navigation.addListener("blur", () => {
+      console.log("BLURED SIGN IN");
       clearErrorMessage();
     });
 
@@ -26,10 +28,7 @@ export const SignInScreen: React.FC<IProps> = ({}) => {
         onSubmit={signIn}
         submitBtnText="Sign In"
       />
-      <NavLink
-        to="MainScreens"
-        btnText="Don't have an account ? Sign up for one!"
-      />
+      <NavLink to="SignUp" btnText="Don't have an account ? Sign up for one!" />
     </Center>
   );
 };

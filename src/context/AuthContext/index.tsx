@@ -82,6 +82,15 @@ const actionCreators = {
   },
   clearErrorMessage: (dispatch: Dispatch<ActionTypes>) => () =>
     dispatch({ type: "clear_error_message" }),
+  tryLocalSignIn: (dispatch: Dispatch<ActionTypes>) => async () => {
+    const token = await AsyncStorage.getItem("token");
+    if (token) {
+      dispatch({ type: "sign_in_success", payload: token });
+      navigate("MainScreens");
+    } else {
+      navigate("SignUp");
+    }
+  },
 };
 
 const authReducer = (

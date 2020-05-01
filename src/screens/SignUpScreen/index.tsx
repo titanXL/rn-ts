@@ -3,20 +3,22 @@ import { Center } from "../../components/Center";
 import { AuthForm } from "../../components/AuthForm";
 import { Context as AuthContext } from "../../context/AuthContext";
 import { NavLink } from "../../components/NavLink";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 
 interface IProps {}
 
 export const SignUpScreen: React.FC<IProps> = ({}) => {
   const { auth, signUp, clearErrorMessage } = useContext(AuthContext);
   const navigation = useNavigation();
+
   useEffect(() => {
     const unsubscribe = navigation.addListener("blur", () => {
+      console.log("BLURED SIGN UP");
       clearErrorMessage();
     });
-
     return unsubscribe;
-  }, [navigation]);
+  }, []);
+
   return (
     <Center>
       <AuthForm

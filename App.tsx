@@ -1,6 +1,7 @@
-import React, { useEffect, useContext } from "react";
+import React from "react";
 import { navigationRef } from "./navigationRef";
-
+import { enableScreens } from "react-native-screens";
+enableScreens();
 import {
   Provider as AuthProvider,
   Context as AuthContext,
@@ -21,10 +22,12 @@ import {
   TrackDetailScreen,
   TrackListScreen,
 } from "./src/screens";
+import { ResolveAuth } from "./src/screens/ResolveAuth";
 
 export type AuthStackParamList = {
   SignIn: undefined;
   SignUp: undefined;
+  ResolveAuth: undefined;
   MainScreens: undefined;
 };
 
@@ -66,7 +69,8 @@ export default () => {
   return (
     <AuthProvider>
       <NavigationContainer ref={navigationRef}>
-        <StackAuth.Navigator initialRouteName="SignUp" headerMode="none">
+        <StackAuth.Navigator initialRouteName="ResolveAuth" headerMode="none">
+          <StackAuth.Screen name="ResolveAuth" component={ResolveAuth} />
           <StackAuth.Screen name="SignIn" component={SignInScreen} />
           <StackAuth.Screen name="SignUp" component={SignUpScreen} />
           <StackAuth.Screen name="MainScreens" component={getMainScreens} />
