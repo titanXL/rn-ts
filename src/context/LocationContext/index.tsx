@@ -21,7 +21,9 @@ type ActionTypes =
   | { readonly type: "change_name"; payload: string };
 
 type ActionCreator<A> = {
-  [key: string]: (dispatch: Dispatch<A>) => (payload?: any) => void;
+  [key: string]: (
+    dispatch: Dispatch<A>
+  ) => (payload?: any, ...args: any) => void;
 };
 
 type ContextType = IState &
@@ -77,13 +79,10 @@ const actionCreators = {
     dispatch({ type: "recording_start" }),
   stopRecording: (dispatch: Dispatch<ActionTypes>) => () =>
     dispatch({ type: "recording_stop" }),
-  addLocation: (dispatch: Dispatch<ActionTypes>) => ({
-    location,
-    recording,
-  }: {
-    location: LocationData;
-    recording: boolean;
-  }) => {
+  addLocation: (dispatch: Dispatch<ActionTypes>) => (
+    location: LocationData,
+    recording: boolean
+  ) => {
     dispatch({
       type: "set_current_location",
       payload: location,

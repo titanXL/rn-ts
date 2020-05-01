@@ -13,8 +13,9 @@ interface IProps {}
 
 export const Map: React.FC<IProps> = ({}) => {
   const {
-    location: { currentLocation },
+    location: { currentLocation, locations },
   } = useContext(LocationContext);
+  console.log(locations);
   if (!currentLocation) {
     return <ActivityIndicator size="large" style={{ marginTop: 200 }} />;
   }
@@ -34,6 +35,7 @@ export const Map: React.FC<IProps> = ({}) => {
           strokeColor="rgba(158, 158, 255, 1.0)"
           fillColor="rgba(158, 158, 255, 0.3)"
         />
+        <Polyline coordinates={locations.map((loc) => loc.coords)} />
       </MapView>
     </View>
   );
