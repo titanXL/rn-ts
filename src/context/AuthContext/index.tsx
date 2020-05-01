@@ -77,8 +77,10 @@ const actionCreators = {
       });
     }
   },
-  signOut: (dispatch: Dispatch<ActionTypes>) => () => {
+  signOut: (dispatch: Dispatch<ActionTypes>) => async () => {
+    await AsyncStorage.removeItem("token");
     dispatch({ type: "sign_out" });
+    navigate("SignUp");
   },
   clearErrorMessage: (dispatch: Dispatch<ActionTypes>) => () =>
     dispatch({ type: "clear_error_message" }),
@@ -130,6 +132,16 @@ const authReducer = (
         auth: {
           ...state.auth,
           errorMessage: action.payload,
+        },
+      };
+    }
+    case "sign_out": {
+      return {
+        ...state,
+        auth: {
+          ...state.auth,
+          token: null,
+          errorMessage: "",
         },
       };
     }
